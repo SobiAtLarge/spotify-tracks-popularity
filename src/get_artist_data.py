@@ -25,7 +25,9 @@ def main():
     
     tracks= spotify_client.get_tracks([TRACK_ID])
 
-    timestamped_tracks = {"tracks":tracks,"extract_timestamp":ts}
+    tracks_json_string = json.dumps(tracks)
+
+    timestamped_tracks = {"tracks":tracks_json_string,"extract_timestamp":ts}
 
     filename = 'tracks.json'
 
