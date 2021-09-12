@@ -25,10 +25,12 @@ def main():
     
     tracks= spotify_client.get_tracks([TRACK_ID])
 
+    timestamped_tracks = {"tracks":tracks,"extract_timestamp":ts}
+
     filename = 'tracks.json'
 
     with open(filename, 'w') as file:
-        file.write(json.dumps(tracks))
+        file.write(json.dumps(timestamped_tracks))
 
     upload_file_to_bq(
         filename=filename,

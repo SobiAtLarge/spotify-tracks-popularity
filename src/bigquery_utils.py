@@ -5,7 +5,7 @@ def upload_file_to_bq(*, filename,project_id,dataset_id,table_id):
     table_ref = f"{project_id}.{dataset_id}.{table_id}"
     job_config = bigquery.LoadJobConfig()
 
-    job_config.write_disposition = "WRITE_TRUNCATE"
+    job_config.write_disposition = "WRITE_APPEND"
     job_config.create_disposition = "CREATE_IF_NEEDED"
 
     job_config.source_format = bigquery.SourceFormat.NEWLINE_DELIMITED_JSON
