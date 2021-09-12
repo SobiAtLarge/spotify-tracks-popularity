@@ -4,6 +4,7 @@ import time
 import datetime
 
 from spotifyclient import SpotifyClient
+from bigquery_utils import upload_file_to_bq
 
 def main():
     CLIENT_ID = os.getenv("CLIENT_ID")
@@ -21,10 +22,19 @@ def main():
     ts = datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%S')
     
     print("{}: Processing".format(ts))
-
+    
     tracks= spotify_client.get_tracks([TRACK_ID])
 
-    print(json.dumps(tracks))    
+    filename = 'tracks.json'
+
+    with open(filename, 'w') as file:
+        file.write(json.dumps(tracks))
+
+    upload_file_to_bq(
+        filename=filename,
+        project_id='capable-bivouac-325712',
+        dataset_id='tracks_popularity',
+        table_id='tracks_at_spotify')
 
 if __name__ == "__main__":
     main()
