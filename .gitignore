@@ -3,4 +3,5 @@
 
 # Python 3 bytecode
 /src/__pycache__
+
 CREDENTIALS_FILE.json
