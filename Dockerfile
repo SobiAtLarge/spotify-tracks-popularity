@@ -17,5 +17,6 @@ RUN apk add --update --no-cache curl python3 && \
  COPY CREDENTIALS_FILE.json /provisioning
  COPY requirements.txt /provisioning
  COPY ./src /provisioning/src
+ COPY spotify_tracks_popularity_dag.py /provisioning
 
 ENTRYPOINT ["/bin/sh", "docker_entrypoint.sh"]

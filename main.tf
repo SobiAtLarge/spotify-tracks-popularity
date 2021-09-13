@@ -62,14 +62,13 @@ resource "null_resource" "extraction_app_docker_image" {
   triggers = {
     chksm_vls = filemd5("Dockerfile")
   }
-
   # This part will be executed when a normal terraform apply command is issued
   provisioner "local-exec" {  
     command =  "gcloud builds submit --tag europe-west1-docker.pkg.dev/${local.project_id}/${google_artifact_registry_repository.artifact_repository.repository_id}/extraction-app:latest"
     interpreter=["sh", "-c"]
     working_dir = path.module  
   }
-
+  depends_on = [google_artifact_registry_repository.artifact_repository]
 }
 
 ### IAM
@@ -152,4 +151,19 @@ resource "google_composer_environment" "dp-composer" {
     google_project_service.project_composer_service,
     google_service_account.composer_service_account,
     google_project_iam_member.the_access_composer_worker]
+}
+
+# Wrapping gcloud commands deploying the airflow dag
+resource "null_resource" "deploy-airflow-dag" {  
+  # Trigger this functonality when the dag has changed
+  triggers = {
+    chksm_vls = filemd5("spotify_tracks_popularity_dag.py")
+  }
+  # This part will be executed when a normal terraform apply command is issued
+  provisioner "local-exec" {  
+    command = "gcloud composer environments storage dags import --environment dp-composer --location europe-west1 --source spotify_tracks_popularity_dag.py"
+    interpreter=["sh", "-c"]
+    working_dir = path.module  
+  }
+  depends_on = [google_composer_environment.dp-composer]
 }
