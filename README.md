@@ -24,7 +24,7 @@ To install and deploy components, you need to have Docker, and owner access to a
 Run the following commands in succession:
 1. `docker build -t resource_provisoner .`
 2. `docker run resource_provisoner:latest`
-The app code is placed into the container, so after any change in the code, the image has to be rebuilt.
+The container-based deployment creates all GCP resources, deploys the image for python app to artifact registry, and deploys the Airflow dag.
 
 # References
-The Spotify client code was taken from here: https://github.com/dmschauer/spotify-api-historization
+The Spotify client code was partially taken from here: https://github.com/dmschauer/spotify-api-historization
