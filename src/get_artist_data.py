@@ -27,11 +27,14 @@ def main():
     ts = datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%S')
     filename = 'tracks.json'
     with open(filename, 'a') as file:
-        for track in TRACK_IDs.split(','):
-            track= spotify_client.get_tracks([track])
-            track_json_string = json.dumps(track)
-            timestamped_tracks = {"track":track_json_string,"extract_timestamp":ts}
-            file.write(json.dumps(timestamped_tracks))
+        for track_id in TRACK_IDs.split(','):
+            track_data= spotify_client.get_tracks([track_id])
+            track_json_string = json.dumps(track_data)
+            track_table_row = {
+                "track_id":track_id,
+                "extract_timestamp":ts,
+                "track_data":track_json_string}
+            file.write(json.dumps(track_table_row))
             file.write("\n")
     
     upload_file_to_bq(
