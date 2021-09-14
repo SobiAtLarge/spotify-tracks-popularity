@@ -11,6 +11,5 @@ COPY ./src /app/src
 ENV CLIENT_ID '6be2b918541a40e289f434b3ac626d64'
 ENV CLIENT_SECRET 'cd2b7f3eed1e45d08eda0ffa88032aa6'
 ENV GOOGLE_APPLICATION_CREDENTIALS '/app/CREDENTIALS_FILE.json'
-ENV TRACK_ID '1Ku0J6YIKWOd6pZi4VlFLb,3nWb9thapSjGMnHefJewJq'
 
 CMD ["python3", "./src/get_artist_data.py"]
