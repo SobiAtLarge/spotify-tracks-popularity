@@ -57,12 +57,8 @@ resource "google_artifact_registry_repository" "artifact_repository" {
 }
 
 # Wrapping gcloud commands for building docker image
+# This part will be executed when a normal terraform apply command is issued
 resource "null_resource" "extraction_app_docker_image" {  
-  # Trigger this functonality when the docker file for the app has been changed
-  triggers = {
-    chksm_vls = filemd5("Dockerfile")
-  }
-  # This part will be executed when a normal terraform apply command is issued
   provisioner "local-exec" {  
     command =  "gcloud builds submit --tag europe-west1-docker.pkg.dev/${local.project_id}/${google_artifact_registry_repository.artifact_repository.repository_id}/extraction-app:latest"
     interpreter=["sh", "-c"]
