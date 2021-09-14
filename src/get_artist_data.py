@@ -36,7 +36,7 @@ def main():
     
     upload_file_to_bq(
         filename=filename,
-        project_id='GCP_PROJECT_ID',
+        project_id=GCP_PROJECT_ID,
         dataset_id='tracks_popularity',
         table_id='tracks_at_spotify')
 
