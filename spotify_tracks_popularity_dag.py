@@ -5,9 +5,7 @@ import ast
 from airflow import models
 from airflow.contrib.operators.kubernetes_pod_operator import KubernetesPodOperator
 
-ENV = ''
-PROJECT_PREFIX = 'capable-bivouac-325712'
-PROJECT = f"{PROJECT_PREFIX}{ENV}"
+PROJECT = os.environ.get("PROJECT_ID")
 
 DAG_START_DAY = datetime.datetime(2021, 2, 1)
 
@@ -26,5 +24,5 @@ with models.DAG(
         is_delete_operator_pod=True,
         image=f'europe-west1-docker.pkg.dev/{PROJECT}/spotify-tracks-popularity/extraction-app:latest',
         image_pull_policy='Always',
-        env_vars={'TRACK_ID': '1Ku0J6YIKWOd6pZi4VlFLb'},
+        env_vars={'TRACK_ID': '1Ku0J6YIKWOd6pZi4VlFLb', 'GCP_PROJECT_ID':PROJECT},
         dag=dag)
