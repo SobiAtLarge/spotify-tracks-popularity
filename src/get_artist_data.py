@@ -10,7 +10,12 @@ def main():
     CLIENT_ID = os.getenv("CLIENT_ID")
     CLIENT_SECRET = os.getenv("CLIENT_SECRET")
     TRACK_IDs = os.getenv("TRACK_ID")
+    GCP_PROJECT_ID = os.getenv("GCP_PROJECT_ID")
 
+    if CLIENT_ID == '' or CLIENT_SECRET == '' or TRACK_IDs == '' or GCP_PROJECT_ID == '':
+        print('missing one or more environment varibles: CLIENT_ID, CLIENT_SECRET, TRACK_IDs, GCP_PROJECT_ID')
+        exit(1)
+    
     BASE_URL = 'https://api.spotify.com/v1/'
     AUTH_URL = 'https://accounts.spotify.com/api/token'
 
@@ -31,7 +36,7 @@ def main():
     
     upload_file_to_bq(
         filename=filename,
-        project_id='capable-bivouac-325712',
+        project_id='GCP_PROJECT_ID',
         dataset_id='tracks_popularity',
         table_id='tracks_at_spotify')
 
