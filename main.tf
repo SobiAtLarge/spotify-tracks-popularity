@@ -1,26 +1,26 @@
 // Configure the Google Cloud provider
+locals {
+    project_id="capable-bivouac-325712"
+}
+
+terraform {
+  backend "gcs" {
+    bucket = "capable-bivouac-325712-tf-state"
+    prefix = "state"
+    credentials = "CREDENTIALS_FILE.json"
+  }
+}
+
 provider "google" {
  credentials = file("CREDENTIALS_FILE.json")
- project     = "capable-bivouac-325712"
+ project     = local.project_id
  region      = "eu-west1"
 } 
 
 provider "google-beta" {
  credentials = file("CREDENTIALS_FILE.json")
- project     = "capable-bivouac-325712"
+ project     = local.project_id
  region      = "eu-west1"
-}
-
-terraform {
-  backend "gcs" {
-    bucket      = "capable-bivouac-325712-tf-state"
-    prefix      = "state"
-    credentials = "CREDENTIALS_FILE.json"
-  }
-}
-
-locals {
-    project_id="capable-bivouac-325712"
 }
 
 ### Enable APIs
