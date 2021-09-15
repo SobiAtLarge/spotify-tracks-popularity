@@ -111,6 +111,62 @@ resource "google_bigquery_dataset" "tracks_popularity" {
   delete_contents_on_destroy = true
 }
 
+resource "google_bigquery_table" "tracks_at_spotify" {
+  dataset_id  = google_bigquery_dataset.tracks_popularity.dataset_id
+  table_id    = "tracks_at_spotify"
+  project     = local.project_id
+  deletion_protection = true
+  schema      = file("sql/tracks_at_spotify_schema.json")
+}
+
+resource "google_bigquery_table" "tracks" {
+  dataset_id  = google_bigquery_dataset.tracks_popularity.dataset_id
+  table_id    = "tracks"
+  project     = local.project_id
+  deletion_protection = false
+  view {
+    query = replace(file("sql/tracks.sql"),"#PROJECT_ID",local.project_id)
+    use_legacy_sql = false
+  }
+  depends_on = [google_bigquery_table.tracks_at_spotify]  
+}
+
+resource "google_bigquery_table" "playlists" {
+  dataset_id  = google_bigquery_dataset.tracks_popularity.dataset_id
+  table_id    = "playlists"
+  project     = local.project_id
+  deletion_protection = false
+  view {
+    query = file("sql/playlists.sql")
+    use_legacy_sql = false
+  }
+}
+
+resource "google_bigquery_table" "all_tracks_in_playlist_during" {
+  dataset_id  = google_bigquery_dataset.tracks_popularity.dataset_id
+  table_id    = "all_tracks_in_playlist_during"
+  project     = local.project_id
+  deletion_protection = false
+  view {
+    query = replace(file("sql/all_tracks_in_playlist_during.sql"),"#PROJECT_ID",local.project_id)
+    use_legacy_sql = false
+  }
+  depends_on = [google_bigquery_table.playlists]  
+}
+
+resource "google_bigquery_table" "historical_track_playlist_membership" {
+  dataset_id  = google_bigquery_dataset.tracks_popularity.dataset_id
+  table_id    = "historical_track_playlist_membership"
+  project     = local.project_id
+  deletion_protection = false
+  view {
+    query = replace(file("sql/historical_track_playlist_membership.sql"),"#PROJECT_ID",local.project_id)
+    use_legacy_sql = false
+  }
+  depends_on = [google_bigquery_table.playlists]  
+}
+
+
 resource "google_composer_environment" "dp-composer" {
   count  = 1
   name   = "dp-composer"
