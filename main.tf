@@ -115,7 +115,7 @@ resource "google_bigquery_table" "tracks_at_spotify" {
   dataset_id  = google_bigquery_dataset.tracks_popularity.dataset_id
   table_id    = "tracks_at_spotify"
   project     = local.project_id
-  deletion_protection = true
+  deletion_protection = false
   schema      = file("sql/tracks_at_spotify_schema.json")
 }
 
