@@ -34,19 +34,17 @@ All artifacts that need deploying are copied into the Terraform container. From 
 2. Enable the dag `spotify_tracks_popularity_dag`, which would make an initial run.
 3. The initial run might fail as the image might take too long to load for the first time, in that case clear the task named `extraction_app` to run it again.
 4. To see the data and run the queries, navigate to BigQuery in cloud console and query the table/views.
-# References
-The Spotify client code was partially taken from here: https://github.com/dmschauer/spotify-api-historization
 
 ## How to destroy the infrastructure
 Change the docker the last line in `docker_entrypoint.sh` from `terraform apply -auto-approve` to `terraform destroy -auto-approve` and then run the steps in the deployment.
 
-## Note on how this was developed
-# tasks list
+# Notes on how this was developed
+## tasks list
 1. Get the docker app "working", prints on screen - DONE
 2. Get the app to query the correct API end point/content - DONE
 3. Setup a GCP project - DONE
 4. Terraform composer, BQ dataset, bucket, etc. -- DONE
-5. deploying the app images to artifact registry throgh terraform code -- DONE
+5. Deploying the app image to artifact registry throgh terraform code -- DONE
 6. Composer dag that runs the container -- DONE
 7. Modify the docker image/code to write to BQ -- DONE
 8. deploying dag to composer using terraform -- DONE
@@ -58,7 +56,7 @@ Change the docker the last line in `docker_entrypoint.sh` from `terraform apply 
 1. Schema evolution, that is why the data is kept in raw json format in string.
 2. Infra as code, I think is very important for the project at the finance team, thats why I implemented it here.
 3. clamity: developing on a windows machine, no local bash, used a docker image for dev/deployment environemnt.
-4. NO proper deployments, deployment of the app-image and the dag is done in terraform, not ideal, but quick and dirty- time limitation.
+4. NO proper deployments, deployment of the app-image and the dag is done in terraform, not ideal, but quick and dirty- time limitations ...
 
 ## Next steps:
 1. Setup secret manager for spotify client secrets and service account keys.
@@ -66,3 +64,5 @@ Change the docker the last line in `docker_entrypoint.sh` from `terraform apply 
 3. DBT for proper modeling with layers, dbt can be packaged as a docker container and executed from Airflow.
 5. Read all track_ids from a file that is located in a bucket or from a BQ table.
 
+# References
+The Spotify client code was partially taken from here: https://github.com/dmschauer/spotify-api-historization

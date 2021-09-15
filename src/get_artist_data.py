@@ -27,6 +27,9 @@ def main():
     ts = datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%S')
     filename = 'tracks.json'
     with open(filename, 'a') as file:
+        # One API call for every track,
+        # This is to avoid mixing inconsistant json responses into one row
+        # Also no need for unnesting in BQ
         for track_id in TRACK_IDs.split(','):
             track_data= spotify_client.get_tracks([track_id])
             track_json_string = json.dumps(track_data)

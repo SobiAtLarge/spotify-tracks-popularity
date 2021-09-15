@@ -6,8 +6,7 @@ RUN apk add --update --no-cache curl python3 && \
     mkdir -p /usr/local/gcloud && \
     tar -C /usr/local/gcloud -xf /tmp/google-cloud-sdk.tar.gz && \
     ln -s /usr/local/gcloud/google-cloud-sdk/bin/gcloud /usr/bin/gcloud && \
-    /usr/local/gcloud/google-cloud-sdk/install.sh && \
-    gcloud config set project capable-bivouac-325712
+    /usr/local/gcloud/google-cloud-sdk/install.sh
  
  WORKDIR /provisioning
 

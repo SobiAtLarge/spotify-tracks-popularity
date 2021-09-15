@@ -2,7 +2,7 @@
 --What tracks have been in a playlist during a specific time period.
 SELECT
     p.playlist_id,
-    ARRAY_AGG(DISTINCT track)
+    ARRAY_AGG(DISTINCT track) AS tracks
 FROM
     `#PROJECT_ID.tracks_popularity.playlists` p,
     UNNEST(tracks) track

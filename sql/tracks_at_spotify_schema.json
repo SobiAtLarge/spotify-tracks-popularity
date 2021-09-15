@@ -1,13 +1,13 @@
 [
     {
       "description": "When the extraction application queried the spotify API",
-      "mode": "REQUIRED",
+      "mode": "NULLABLE",
       "name": "extract_timestamp",
       "type": "TIMESTAMP"
     },
     {
       "description": "The track_id used in the application to query the API",
-      "mode": "REQUIRED",
+      "mode": "NULLABLE",
       "name": "track_id",
       "type": "STRING"
     },
