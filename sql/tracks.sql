@@ -1,4 +1,7 @@
 --tracks are stored in the raw layer as a BQ table in the form of plain json text.
+--The tracks raw data model is in the tracks_at_spotify table, with three fields,
+--extract_timestamp, track_id, which records the track_id in the request, and 
+--track_data that contains the whole JSON response from the spotify API.
 --The query below extracts the required fields from the raw layer data
 with tag_invalid_track_data AS(
   SELECT
